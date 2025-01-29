@@ -1,0 +1,18 @@
+{
+  "domain": "piwigo_photo_display_options",
+  "name": "Piwigo Photo Display",
+  "codeowners": [
+    "@dazelmer"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/dazelmer/HAIntegrationExamples",
+  "integration_type": "device",
+  "homekit": {},
+  "iot_class": "local_polling",
+  "requirements": [],
+  "single_config_entry": false,
+  "ssdp": [],
+  "version": "1.0.0",
+  "zeroconf": []
+}
