@@ -187,5 +187,8 @@ class PiwigoWallDisplaySwitch(CoordinatorEntity, SwitchEntity):
         #    )
         # attrs["last_seen"] = datetime.utcnow()
         attrs["simple_name"] = self.device.simple_name
+        if self.device.piwigo_id != 0:
+            attrs["Album_Id"] = self.device.piwigo_id
+            attrs["Parent_Album_Id"] = self.device.piwigo_parent_id
         # print(self.device)
         return attrs

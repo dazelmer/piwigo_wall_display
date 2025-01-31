@@ -24,15 +24,16 @@ class DeviceType(StrEnum):
 class Device:
     """API device."""
 
-    device_id: int
     device_unique_id: str
     device_type: DeviceType
     entity_id: str
     name: str
     state: int | bool
     piwigo_type: str
-    piwigo_id: int
     simple_name: str
+    piwigo_id: int = 0
+    piwigo_parent_id: int = 0
+    device_id: int = 1
 
 
 class API:
@@ -111,28 +112,26 @@ class API:
             device_id = 2000 + int(device.get("id"))
             tag_list.append(
                 Device(
-                    device_id=1,  # device_id,
+                    #                    device_id=1,  # device_id,
                     device_unique_id=f"{self.controller_name}_tag_ID{device_id}",
                     device_type=DeviceType.SOCKET,
                     name=f"Piwigo_tag_{device.get("name")}",
                     entity_id=f"{self.controller_name}_tag_{device.get("name")}",
                     state=device.get("Enabled") != "0",
                     piwigo_type="tag",
-                    piwigo_id=device.get("id"),
                     simple_name=device.get("name"),
                 )
             )
         album_list.extend(tag_list)
         album_list.append(
             Device(
-                device_id=1,
+                #                device_id=1,
                 device_unique_id=f"{self.controller_name}_mode",
                 device_type=DeviceType.SELECT,
                 name="Piwigo_mode",
                 entity_id=f"{self.controller_name}_mode",
                 state=mode,
                 piwigo_type="mode",
-                piwigo_id=0,
                 simple_name="Mode",
             )
         )
@@ -155,15 +154,16 @@ class API:
             device_id = 1000 + int(album.get("id"))
             out_list.append(
                 Device(
-                    device_id=1,  # device_id,
+                    #                    device_id=1,  # device_id,
                     device_unique_id=f"{self.controller_name}_cat_ID{device_id}",
                     device_type=DeviceType.SOCKET,
                     name=f"Piwigo_album_{full_name}",
                     entity_id=f"{self.controller_name}_cat_{album.get("name")}",
                     state=album.get("Enabled") != "0",
                     piwigo_type="cat",
-                    piwigo_id=album.get("id"),
                     simple_name=f"{partial_parent}{album.get("name")}",
+                    piwigo_id=album.get("id"),
+                    piwigo_parent_id=0 if parent == "" else album.get("id_uppercat"),
                 )
             )
             children_dict = dict(album.get("children"))
